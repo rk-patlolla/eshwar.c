@@ -2,13 +2,16 @@ package com.tejyasols.surveyApp.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -40,6 +43,9 @@ public class Category implements Serializable {
 
 	@Column(name = "modified_date",nullable = false, updatable = true)
 	private Timestamp updateDateTime;
+	
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	private List<Questionnaire> questions;
 
 	public Category() {
 		super();
@@ -97,12 +103,21 @@ public class Category implements Serializable {
         setCategoryName(other.getCategoryName());  
    }  
 	
-	
+	public List<Questionnaire> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Questionnaire> questions) {
+		this.questions = questions;
+	}
+
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", categoryName=" + categoryName + ", createDateTime=" + createDateTime
-				+ ", updateDateTime=" + updateDateTime + ", isActive=" + isActive + "]";
+		return "Category [categoryName=" + categoryName + ", createDateTime=" + createDateTime + ", id=" + id
+				+ ", isActive=" + isActive + ", updateDateTime=" + updateDateTime + ", questions=" + questions + "]";
 	}
+
+	
 
 	
 

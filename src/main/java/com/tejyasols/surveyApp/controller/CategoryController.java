@@ -41,7 +41,14 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 
 	@GetMapping("/home")
 	public ModelAndView index() {
-		return new ModelAndView("trail");
+		List<Category> catList = new ArrayList<Category>();
+		try {
+			catList = categoryService.findAll();
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return new ModelAndView("home");
 	}
 	
 	@GetMapping("/admin")
@@ -55,7 +62,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 	}
 	
 
-	@GetMapping("/getAllCategories")
+	/*@GetMapping("/getAllCategories")
 	public List<Category> getAllCategories() {
 		List<Category> categoriesList = new ArrayList<Category>();
 		try {
@@ -65,6 +72,22 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 			e.printStackTrace();
 		}
 		return categoriesList;
+	}*/
+	
+	@GetMapping("/getAllCategories")
+	public ModelAndView getAllCategories(@ModelAttribute("Category") Category category,BindingResult result) {
+		List<Category> categoriesList = new ArrayList<Category>();
+		try {
+			categoriesList = categoryService.findAll();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("createQuestionnaireForm");
+		mv.addObject("categoriesList", categoriesList);
+		return mv;
 	}
 	
 	@GetMapping("/getCategory/{id}")

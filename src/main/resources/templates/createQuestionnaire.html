@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title> Questionnaire Creation </title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+	<body>
+	    <h1>Create</h1>
+	    <form action="#" th:action="@{/QuestionnaireController/createQuestions}" th:object="${category}" method="POST">
+	      <table>
+	    	<tr><td>Category</td>
+	    	   <td>
+	    	       <select th:field="*{id}">
+	    	          <option th:each="category : ${allCategories}" th:value="${category.categoryName}" th:text="${category.categoryName}">category</option>
+	    	       </select>
+	    	   </td>
+	    	</tr>
+	    	<tr><td>Questions</td>
+	    	    <td>
+	    	      <input type="text" th:field="*{questions[0].question}" />
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	    <td>
+	    	      <input type="text" th:field="*{questions[1].question}" />
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	</tr>
+	    	<tr><td colspan="2">
+	              <input type="submit" th:value="#{user.form.submit}"/> 
+	              <input type="reset" th:value="#{user.form.reset}"/>
+	            </td>
+	      </table>  
+	    </form>
+	</body>
+</html> 

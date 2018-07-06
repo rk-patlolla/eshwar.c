@@ -8,7 +8,7 @@
 </head>
 <body>
 <center><b ><font size="12">ADMIN</font></b></center>
-<center><b><a href="createCategoryForm">Add Category</a>
-<center><b><a href="createQuestionForm">Add Course</a>
+<center><b><a href="createCategoryForm">Add Category</a></b></center>
+<center><b><a href="getAllCategories">Add Question</a></b></center>
 </body>
 </html>
