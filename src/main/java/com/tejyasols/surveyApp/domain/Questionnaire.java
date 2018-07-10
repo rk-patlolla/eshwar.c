@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -24,9 +27,10 @@ public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 630642182724268139L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "question_id")
-	private Long id;
+	@SequenceGenerator(name = "seq_contacts", sequenceName = "seq_contacts")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_contacts")
+	@Column(name = "questionId")
+	private Long questionId;
 
 	@Column
 	@NotBlank
@@ -39,14 +43,18 @@ public class Questionnaire implements Serializable {
 	@Column(name = "created_date", nullable = false, updatable = false)
 	private Timestamp createDateTime;
 
-	@Column(name = "modified_date",nullable = false, updatable = true)
+	@Column(name = "modified_date", nullable = false, updatable = true)
 	private Timestamp updateDateTime;
 
 	@Column
 	private boolean isActive = false;
-	
+
 	@ManyToOne
-	private Category category;
+	@JoinColumn(name = "categoryId")
+	public Category category;
+	
+	@Transient
+	public List<Answer> answers;
 
 	public boolean isActive() {
 		return isActive;
@@ -56,12 +64,12 @@ public class Questionnaire implements Serializable {
 		this.isActive = isActive;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getQuestionId() {
+		return questionId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setQuestionId(Long questionId) {
+		this.questionId = questionId;
 	}
 
 	public String getQuestion() {
@@ -71,7 +79,6 @@ public class Questionnaire implements Serializable {
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -104,15 +111,24 @@ public class Questionnaire implements Serializable {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
 
 	@Override
 	public String toString() {
-		return "Questionnaire [id=" + id + ", question=" + question + ", categoryId=" + categoryId + ", createDateTime="
-				+ createDateTime + ", updateDateTime=" + updateDateTime + ", isActive=" + isActive + ", category="
-				+ category + "]";
+		return "Questionnaire [questionId=" + questionId + ", question=" + question + ", categoryId=" + categoryId
+				+ ", createDateTime=" + createDateTime + ", updateDateTime=" + updateDateTime + ", isActive=" + isActive
+				+ ", category=" + category + "]";
 	}
 
-	
 	
 
 }

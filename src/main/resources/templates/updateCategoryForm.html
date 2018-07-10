@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title> Questionnaire Creation </title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+	<body>
+	    <h1>Create</h1>
+	    <form action="#" th:action="@{/SurveyController/updateCategory}" th:object="${category}" method="POST">
+	    <th:block th:each="category : ${categoriesList}">
+		
+			<form action="#" th:action="@{/SurveyController/updateCategory}" th:object="${category}" method="POST">
+			<tr>
+				<td th:text="${category.categoryName}" th:value="${category.categoryId}">...</td>
+				<td><button type="submit">UPDATE</button></td>
+                </form>
+			<td><a href="@{/SurveyController/deleteCategoryById/${category.categoryId}"><button>DELETE</button></a></td>
+			</tr>
+		</th:block>
+	      <table>
+	    	<tr>
+	    	<td>
+	    	Category
+	    	<input type="text" th:field="*{categoryName}" >
+	    	</td>
+	    	<tr>
+	    	<td>Questions</td>
+	    	</tr>
+	    	<tr>
+	    	   <td>Question1
+	    	      <input type="text" th:field="*{questions[0].question}" >
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	   </td>
+	    	   </tr>
+	    	    
+	    	    <tr>
+	    	     <td>Answer1
+	    	      <input type="text" th:field="*{questions[0].answers[0].answer}" />
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	  
+	    	     <td>Answer2
+	    	      <input type="text" th:field="*{questions[0].answers[1].answer}" >
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	    
+	    	    <tr>
+	    	    <td>Question2
+	    	      <input type="text" th:field="*{questions[1].question}" />
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	     </tr>
+	    	     <td>Answer1
+	    	      <input type="text" th:field="*{questions[1].answers[0].answer}" />
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	   
+	    	     <td>Answer2
+	    	      <input type="text" th:field="*{questions[1].answers[1].answer}" >
+<!-- 	    	      <label th:if="${#fields.hasErrors('question')}" th:text="#{error.user.name}" th:class="'error'">Name Error</label> -->
+	    	    </td>
+	    	    
+	    	</tr>
+	    	<tr><td colspan="2">
+	              <input type="submit" th:value="#{submit}"/> 
+	              <input type="reset" th:value="#{reset}"/>
+	            </td>
+	      </table>  
+	    </form>
+	</body>
+</html> 

@@ -12,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,10 +35,10 @@ public class Category implements Serializable {
 	@Column(name = "created_date", nullable = false, updatable = false)
 	private Timestamp createDateTime;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-//	@Column(name = "category_id")
-	private Long id;
+	 @Id
+	 @SequenceGenerator(name = "seq_contacts", sequenceName = "seq_contacts")
+	 @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_contacts")
+	private Long categoryId;
 
 	@Column
 	private boolean isActive = false;
@@ -44,17 +46,18 @@ public class Category implements Serializable {
 	@Column(name = "modified_date",nullable = false, updatable = true)
 	private Timestamp updateDateTime;
 	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@Transient
 	private List<Questionnaire> questions;
+	
 
 	public Category() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Category(Long id, @NotBlank String categoryName) {
+	public Category(Long categoryId, @NotBlank String categoryName) {
 		super();
-		this.id = id;
+		this.categoryId = categoryId;
 		this.categoryName = categoryName;
 	}
 
@@ -66,10 +69,7 @@ public class Category implements Serializable {
 		return createDateTime;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
+	
 	public Timestamp getUpdateDateTime() {
 		return updateDateTime;
 	}
@@ -90,9 +90,7 @@ public class Category implements Serializable {
 		this.createDateTime = createDateTime;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 
 	public void setUpdateDateTime(Timestamp updateDateTime) {
 		this.updateDateTime = updateDateTime;
@@ -101,8 +99,17 @@ public class Category implements Serializable {
 	
 	public void merge(Category other) {  
         setCategoryName(other.getCategoryName());  
-   }  
-	
+   }
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+
 	public List<Questionnaire> getQuestions() {
 		return questions;
 	}
@@ -113,9 +120,17 @@ public class Category implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Category [categoryName=" + categoryName + ", createDateTime=" + createDateTime + ", id=" + id
-				+ ", isActive=" + isActive + ", updateDateTime=" + updateDateTime + ", questions=" + questions + "]";
+		return "Category [categoryName=" + categoryName + ", createDateTime=" + createDateTime + ", categoryId="
+				+ categoryId + ", isActive=" + isActive + ", updateDateTime=" + updateDateTime + ", questions="
+				+ questions + "]";
 	}
+
+	
+	
+	
+	
+
+	
 
 	
 

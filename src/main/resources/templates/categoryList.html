@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Questionnaire Creation</title>
+<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+	<h1>List Of Categories</h1>
+	<table>
+		<th:block th:each="category : ${categoriesList}">
+		
+			<form action="#" th:action="@{/SurveyController/updateCategory}" th:object="${category}" method="POST">
+			<tr>
+				<td th:text="${category.categoryName}" th:value="${category.categoryId}">...</td>
+				<td><button type="submit">UPDATE</button></td>
+                </form>
+			<td><a href="@{/SurveyController/deleteCategoryById/${category.categoryId}"><button>DELETE</button></a></td>
+			</tr>
+		</th:block>
+	</table>
+</body>
+</html>

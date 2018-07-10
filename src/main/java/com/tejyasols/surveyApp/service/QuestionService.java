@@ -10,6 +10,6 @@ public interface QuestionService {
 	
 	public Questionnaire createQuestion(Questionnaire question) throws Exception;
 
-	public List<Questionnaire> saveall(List<Questionnaire> questionsList);
+	public List<Questionnaire> saveall(List<Questionnaire> questionsList) throws Exception;
 
 }

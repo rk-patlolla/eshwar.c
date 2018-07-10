@@ -21,9 +21,16 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<Questionnaire> saveall(List<Questionnaire> questionsList) {
+	public List<Questionnaire> saveall(List<Questionnaire> questionsList) throws Exception {
 		// TODO Auto-generated method stub
+		try
+		{
 		return questionnaireRepository.saveAll(questionsList);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return null;
+		}
 		
 	}
 

@@ -37,38 +37,50 @@ public class QuestionnaireController {
 
 	@GetMapping("create-Questionnaire")
 	public ModelAndView createQuestionnairesView() {
+		
 		ModelAndView mav = new ModelAndView();
-		List<String> quesList = new ArrayList<String>();
-		mav.setViewName("createQuestionnaire");
-		mav.addObject("category", new Category());
 		List<Category> categoriesList = new ArrayList<Category>();
+		List<String> quesList = new ArrayList<String>();
+		
+		
 		try {
+			
+			mav.setViewName("createQuestionnaire");
+			mav.addObject("category", new Category());
 			categoriesList = categoryService.findAll();
+			System.out.println(mav.getViewName());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		categoriesList.stream().forEachOrdered(s -> logger.debug(String.valueOf(s.getId())));
+		categoriesList.stream().forEachOrdered(s -> logger.debug(String.valueOf(s.getCategoryId())));
 		mav.addObject("quesList", quesList);
 		mav.addObject("allCategories", categoriesList);
 		return mav;
 	}
 
 	@PostMapping("/createQuestions")
-	public ModelAndView createQuestion(@Valid Category category, BindingResult result) {
+	public ModelAndView createQuestion(@Valid Category category, BindingResult result) throws Exception {
 		logger.debug("reached form");
 		ModelAndView mav = new ModelAndView();
-		/*if (result.hasErrors()) {
-			System.out.println("errors found are "+result.getAllErrors());
-		}*/
-		logger.debug("chose category is "+category.getId());
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		if (result.hasErrors()) {
+			logger.debug("errors found are "+result.getAllErrors());
+		}
+		logger.debug("chose category is "+category.getCategoryId().getClass());
 		category.getQuestions().stream().forEachOrdered(q->logger.debug("question is "+q.getQuestion())); 
-		mav.setViewName("user-info");
+		category.getQuestions().stream().forEachOrdered(c->c.setCategoryId(category.getCategoryId()));
+		category.getQuestions().stream().forEachOrdered(c->c.setCreateDateTime(timestamp));
+		category.getQuestions().stream().forEachOrdered(c->c.setUpdateDateTime(timestamp));
+		category.getQuestions().stream().forEachOrdered(c->logger.debug("setting category.id for each question "+c.getCategoryId().getClass()));
+		logger.debug("cat is "+category.toString());
+		List<Questionnaire> questionsAdded = questionService.saveall(category.getQuestions());
+		logger.debug("no of questions added is "+questionsAdded.size());
 		logger.info("Form submitted successfully.");
 		return null;
 	}
 
-	/*
-	 * @PostMapping("/createQuestionnaire") public Questionnaire
+	
+	/* * @PostMapping("/createQuestionnaire") public Questionnaire
 	 * createQuestion(@Valid @RequestBody String questionsList) { Timestamp
 	 * timestamp = new Timestamp(System.currentTimeMillis());
 	 * 
@@ -85,7 +97,7 @@ public class QuestionnaireController {
 	 * List<Questionnaire> lt = questionService.saveall(reqList);
 	 * lt.stream().forEachOrdered(l->logger.debug(l.getId().toString())); return
 	 * null; } catch (Exception e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); return null; } }
-	 */
+	 * e.printStackTrace(); return null; } }*/
+	 
 
 }

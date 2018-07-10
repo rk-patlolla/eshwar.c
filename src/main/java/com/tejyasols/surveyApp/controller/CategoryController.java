@@ -1,4 +1,4 @@
-package com.tejyasols.surveyApp.controller;
+/*package com.tejyasols.surveyApp.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 	}
 	
 
-	/*@GetMapping("/getAllCategories")
+	@GetMapping("/getAllCategories")
 	public List<Category> getAllCategories() {
 		List<Category> categoriesList = new ArrayList<Category>();
 		try {
@@ -72,7 +72,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 			e.printStackTrace();
 		}
 		return categoriesList;
-	}*/
+	}
 	
 	@GetMapping("/getAllCategories")
 	public ModelAndView getAllCategories(@ModelAttribute("Category") Category category,BindingResult result) {
@@ -135,7 +135,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 		return new ModelAndView("categoriesList", "Categories", categoriesList) ;
 	}
 
-	/*@PostMapping("/createCategory")
+	@PostMapping("/createCategory")
 	public Category createNote(@RequestBody Category category) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		List<Category> categoriesList = new ArrayList<Category>();
@@ -152,7 +152,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 		logger.debug("new category saved and latest list is as follows");
 		categoriesList.stream().forEachOrdered(s->logger.debug(String.valueOf(s.getId())));
 		return categorySaved;
-	}*/
+	}
 	
 	@PostMapping("/updateCategoryById")
 	public ModelAndView updateCategoryById(@Valid Category category) {
@@ -172,7 +172,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 		
 	}
 
-	/*@PostMapping("/updateCategoryById")
+	@PostMapping("/updateCategoryById")
 	public Category updateCategoryById(@Valid @RequestBody Category category) {
 		Category categoryUpdate = new Category();
 		try {
@@ -182,7 +182,7 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 			e.printStackTrace();
 		}
 	    return categoryUpdate;
-	}*/
+	}
 	
 	@RequestMapping("/deleteCategoryById/{id}")
 	public ModelAndView deleteCategoryById(@Valid @PathVariable Long id) {
@@ -204,3 +204,4 @@ public static final Logger logger = LoggerFactory.getLogger(CategoryController.c
 		return questionnaireRepository.save(question);
 	}
 }
+*/

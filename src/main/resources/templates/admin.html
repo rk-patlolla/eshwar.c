@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+ <head>
+        <title> Admin </title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    </head>
+<body>
+<b ><font size="12">ADMIN</font></b>
+<b><a th:href="createCategoryForm">Add Category</a></b>
+<b><a th:href="@{'/QuestionnaireController/create-Questionnaire'}">Add Question</a></b>
+</body>
+</html>
