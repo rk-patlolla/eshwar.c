@@ -10,12 +10,12 @@
 	<table>
 		<th:block th:each="category : ${categoriesList}">
 		
-			<form action="#" th:action="@{/SurveyController/updateCategory}" th:object="${category}" method="POST">
+			<form th:action="@{'/SurveyController/getCategoryById/'+${category.categoryId}}" th:object="${category}" method="POST">
 			<tr>
 				<td th:text="${category.categoryName}" th:value="${category.categoryId}">...</td>
 				<td><button type="submit">UPDATE</button></td>
                 </form>
-			<td><a href="@{/SurveyController/deleteCategoryById/${category.categoryId}"><button>DELETE</button></a></td>
+<!-- 			<td><a th:href="@{/SurveyController/deleteCategoryById/${category.categoryId}"><button>DELETE</button></a></td> -->
 			</tr>
 		</th:block>
 	</table>

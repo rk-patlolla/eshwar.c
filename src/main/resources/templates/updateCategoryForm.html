@@ -6,17 +6,7 @@
     </head>
 	<body>
 	    <h1>Create</h1>
-	    <form action="#" th:action="@{/SurveyController/updateCategory}" th:object="${category}" method="POST">
-	    <th:block th:each="category : ${categoriesList}">
-		
-			<form action="#" th:action="@{/SurveyController/updateCategory}" th:object="${category}" method="POST">
-			<tr>
-				<td th:text="${category.categoryName}" th:value="${category.categoryId}">...</td>
-				<td><button type="submit">UPDATE</button></td>
-                </form>
-			<td><a href="@{/SurveyController/deleteCategoryById/${category.categoryId}"><button>DELETE</button></a></td>
-			</tr>
-		</th:block>
+	    <form action="#" th:action="@{'/SurveyController/updateCategory/'+ ${category.categoryId}}" th:object="${categoryFetched}" method="POST">
 	      <table>
 	    	<tr>
 	    	<td>

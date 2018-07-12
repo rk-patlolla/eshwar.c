@@ -36,8 +36,36 @@ public class UserDetails implements Serializable {
 	@Column
 	private String userRole;
 
-	/*@OneToOne
-	@PrimaryKeyJoinColumn
-	private SurveyResults surveyResults;*/
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDetails [id=" + id + ", userName=" + userName + ", userRole=" + userRole + "]";
+	}
+	
+	
+
 
 }

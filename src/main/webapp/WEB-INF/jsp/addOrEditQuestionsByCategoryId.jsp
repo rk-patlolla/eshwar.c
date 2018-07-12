@@ -13,26 +13,30 @@
 <body>
 	<table border="1" align="center">
 
-		<th>Category Name</th>
+		<tr>CategoryName</tr>
+		<td>
+		<input type="text" readonly value="${category.categoryName}" />
+		</td>
+		<tr>
 
-
-		<c:forEach var="listValue" items="${Categories}">
+		<c:forEach var="listValue" items="${category.questions}">
 		
 
-			</tr>
+			
 			<form:form modelAttribute="Category" action="updateCategoryById">
-				<input type="hidden" name="categoryId"
-					value="<c:out value="${listValue.categoryId}"/>" />
-				<td><input type="text" name="categoryName"
+				<input type="hidden" name="questionId"
+					value="<c:out value="${listValue.question}"/>" />
+				<%-- <td><input type="text" name="categoryName"
 					value="<c:out value="${listValue.categoryName}"/>" /></td>
-				<td><button type="submit">Update</button></td>
+				<td><button type="submit">Update</button></td> --%>
 			</form:form>
-			<td><a href="<c:url value='deleteCategoryById/${listValue.categoryId}'/>"><button>Delete</button></a></td>
-			<td><a href="<c:url value='addOrEditQuestionsByCategoryId/${listValue.categoryId}'/>"><button>Add/Edit Questions</button></a></td>
+			<%-- <td><a href="<c:url value='deleteCategoryById/${listValue.categoryId}'/>"><button>Delete</button></a></td>
+			<td><a href="<c:url value='addOrEditQuestionsByCategoryId/${listValue.categoryId}'/>"><button>Delete</button></a></td> --%>
 
 
 
 		</c:forEach>
+		</tr>
 
 	</table>
 	<center>

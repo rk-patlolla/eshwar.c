@@ -8,6 +8,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -29,10 +30,10 @@ public class ResultMetric implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "resultMetric_id")
-	private Long id;
+	private Long resultsMetricId;
 
-    @ManyToOne(targetEntity = Questionnaire.class)
-	@Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@ManyToOne
+	@JoinColumn(name = "questionId")
 	private Questionnaire questionnaire;
 
 	@Column
@@ -76,4 +77,19 @@ public class ResultMetric implements Serializable {
 		this.noOfNo = noOfNo;
 	}
 
+	public Long getResultsMetricId() {
+		return resultsMetricId;
+	}
+
+	public void setResultsMetricId(Long resultsMetricId) {
+		this.resultsMetricId = resultsMetricId;
+	}
+
+	@Override
+	public String toString() {
+		return "ResultMetric [resultsMetricId=" + resultsMetricId + ", questionnaire=" + questionnaire
+				+ ", totalNoOFHits=" + totalNoOFHits + ", noOfYes=" + noOfYes + ", noOfNo=" + noOfNo + "]";
+	}
+
+	
 }

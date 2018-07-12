@@ -36,10 +36,6 @@ public class Questionnaire implements Serializable {
 	@NotBlank
 	private String question;
 
-	@ManyToOne(targetEntity = Category.class)
-	@Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	private Long categoryId;
-
 	@Column(name = "created_date", nullable = false, updatable = false)
 	private Timestamp createDateTime;
 
@@ -54,7 +50,10 @@ public class Questionnaire implements Serializable {
 	public Category category;
 	
 	@Transient
+	@OneToMany(mappedBy="question")
 	public List<Answer> answers;
+	
+	public String answer;
 
 	public boolean isActive() {
 		return isActive;
@@ -78,14 +77,6 @@ public class Questionnaire implements Serializable {
 
 	public void setQuestion(String question) {
 		this.question = question;
-	}
-
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
 	}
 
 	public Timestamp getCreateDateTime() {
@@ -124,10 +115,19 @@ public class Questionnaire implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Questionnaire [questionId=" + questionId + ", question=" + question + ", categoryId=" + categoryId
-				+ ", createDateTime=" + createDateTime + ", updateDateTime=" + updateDateTime + ", isActive=" + isActive
-				+ ", category=" + category + "]";
+		return "Questionnaire [questionId=" + questionId + ", question=" + question + ", createDateTime="
+				+ createDateTime + ", updateDateTime=" + updateDateTime + ", isActive=" + isActive + ", category="
+				+ category + ", answers=" + answers + "]";
 	}
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
 
 	
 

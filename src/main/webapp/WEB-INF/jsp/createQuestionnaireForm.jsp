@@ -10,26 +10,33 @@
 </head>
 <body>
 
-<table border="1" align="center">
-<form:form method="post" action="createCategory">
-<tr>
-<th>
-Category Id
-</th>
-<th>
-Question
-</th>
-</tr>
+<form:form method="post" action="../createQuestions" modelAttribute="Category">
+<h3>Category:${categoryFound.categoryName}</h3>
+<form:input type="hidden" readonly="readonly" value="${categoryFound.categoryId}" path="categoryId"/>
+<form:input type="text" readonly="readonly" value="${categoryFound.categoryId}" path="categoryName"/>
+<br>
+<form:input path="questions[0].question" type = "text"/>
+<form:input path="questions[0].answers[0].answer" type = "text"/>
+<form:input path="questions[0].answers[1].answer" type = "text"/>
+<br>
+<form:input path="questions[1].question" type = "text"/>
+<form:input path="questions[1].answers[0].answer" type = "text"/>
+<form:input path="questions[1].answers[1].answer" type = "text"/>
+<br>
+<form:input path="questions[2].question" type = "text"/>
+<form:input path="questions[2].answers[0].answer" type = "text"/>
+<form:input path="questions[2].answers[1].answer" type = "text"/>
+<br>
+<form:input path="questions[3].question" type = "text"/>
+<form:input path="questions[3].answers[0].answer" type = "text"/>
+<form:input path="questions[3].answers[1].answer" type = "text"/>
+<br>
+<form:input path="questions[4].question" type = "text"/>
+<form:input path="questions[4].answers[0].answer" type = "text"/>
+<form:input path="questions[4].answers[1].answer" type = "text"/>
 
-<td><form:input path="categoryName" size="30"/></td>
-<tr><th colspan="4"><button>ADD</button></th></tr>
-   
+ <button type="submit">Update</button>  
 </form:form>
-</table>  
-    
-    
-    <c:forEach var = "i" begin = "1" end = "5">
-         Item <c:out value = "${i}"/><p>
-      </c:forEach>   
+       
 </body>
 </html>

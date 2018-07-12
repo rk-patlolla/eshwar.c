@@ -8,12 +8,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -29,14 +27,14 @@ public class SurveyResults implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "survey_results_id")
-	private Long id;
+	private Long surveyResultsId;
 
-	@ManyToOne(targetEntity = UserDetails.class)
-	@Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	private UserDetails userid;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private UserDetails userDetails;
 
-	@ManyToOne(targetEntity = Questionnaire.class)
-	@Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@ManyToOne
+	@JoinColumn(name = "questionId")
 	private Questionnaire questionnaire;
 
 	@Column
@@ -44,20 +42,20 @@ public class SurveyResults implements Serializable {
 
 	private ResultMetric resultMetric;
 
-	public Long getId() {
-		return id;
+	public Long getSurveyResultsId() {
+		return surveyResultsId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setSurveyResultsId(Long surveyResultsId) {
+		this.surveyResultsId = surveyResultsId;
 	}
 
-	public UserDetails getUserid() {
-		return userid;
+	public UserDetails getUserDetails() {
+		return userDetails;
 	}
 
-	public void setUserid(UserDetails userid) {
-		this.userid = userid;
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
 	}
 
 	public Questionnaire getQuestionnaire() {
@@ -83,5 +81,13 @@ public class SurveyResults implements Serializable {
 	public void setResultMetric(ResultMetric resultMetric) {
 		this.resultMetric = resultMetric;
 	}
+
+	@Override
+	public String toString() {
+		return "SurveyResults [surveyResultsId=" + surveyResultsId + ", userDetails=" + userDetails + ", questionnaire="
+				+ questionnaire + ", answer=" + answer + ", resultMetric=" + resultMetric + "]";
+	}
+	
+	
 
 }

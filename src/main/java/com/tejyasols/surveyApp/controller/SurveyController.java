@@ -1,4 +1,4 @@
-package com.tejyasols.surveyApp.controller;
+/*package com.tejyasols.surveyApp.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import com.tejyasols.surveyApp.domain.Answer;
 import com.tejyasols.surveyApp.domain.Category;
 import com.tejyasols.surveyApp.domain.Questionnaire;
 import com.tejyasols.surveyApp.repository.AnswerRepository;
+import com.tejyasols.surveyApp.service.AnswerService;
 import com.tejyasols.surveyApp.service.CategoryService;
 import com.tejyasols.surveyApp.service.QuestionService;
 
@@ -36,7 +37,7 @@ public class SurveyController {
 	CategoryService categoryService;
 	
 	@Autowired
-	AnswerRepository answerRepository;
+	AnswerService answerService;
 	
 	@Autowired
 	QuestionService questionService;
@@ -87,7 +88,7 @@ public class SurveyController {
 				answerList.add(a);
 				
 			}
-			answerRepository.saveAll(answerList);
+			List<Answer> savedAnswerList = answerService.createAnswer(answerList);
 		}
 		logger.info("Form submitted successfully.");
 		return null;
@@ -110,28 +111,27 @@ public class SurveyController {
 		return mv;
 	}
 	
-	@GetMapping("updateCategoryForm/{categoryId}")
-	public ModelAndView updateCategoryForm(@Valid @PathVariable Long categoryId,BindingResult result) throws Exception
+	@GetMapping("getCategoryById/{categoryId}")
+	public void getCategoryById(@Valid @ModelAttribute Category category ,@PathVariable Long categoryId,BindingResult result) throws Exception
 	{
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("updateCategory");
-		mav.addObject("category", new Category());
-		Category categoryToBeUpdated = categoryService.findById(categoryId);
-		List<Questionnaire> questionList = categoryToBeUpdated.getQuestions();
-		mav.addObject("categoryToBeUpdated",categoryToBeUpdated);
-		mav.addObject("questionList", questionList);
-		return mav;
+		logger.debug("called updateCategoryForm");
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("updateCategory");
+		Category categoryFetched = categoryService.findById(categoryId);
+		categoryFetched.getQuestions().forEach(q->logger.debug(""+q.getQuestion()));
+		categoryFetched.getQuestions().forEach(q->q.getAnswers().forEach(a->logger.debug(""+a.getAnswer())));
+//		mav.addObject("categoryFetched", categoryFetched);
 		
 	}
 	
-	@PostMapping("/updateCategory/{categoryId}")
-	public ModelAndView updateCategory(@Valid @PathVariable Long categoryId, BindingResult result)
+	@PostMapping("/updateCategory/{category}")
+	public ModelAndView updateCategory(@Valid @PathVariable Category category, BindingResult result)
 	{
 		logger.debug("request at updateCategory");
-		logger.debug("categoryId to be updated is "+categoryId);
+		logger.debug("categoryId to be updated is "+category);
 		Category categoryUpdate = new Category();
 		try {
-			categoryUpdate = categoryService.
+			categoryUpdate = categoryService.updateCategoryById(category);
 			List<Category> categoriesList = categoryService.findAll();
 			ModelAndView mv = new ModelAndView("categoryList");
 			mv.addObject("categoriesList", categoriesList);
@@ -142,8 +142,21 @@ public class SurveyController {
 			return null;
 		}
 	}
+	
+	@RequestMapping("/deleteCategoryById/{id}")
+	public ModelAndView deleteCategoryById(@Valid @PathVariable Long id) {
+		logger.debug("recieced deleteCategoryById api call");
+		try {
+			categoryService.deleteCategory(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return  new ModelAndView("success");
+	}
 
 }
 
 	
 
+*/

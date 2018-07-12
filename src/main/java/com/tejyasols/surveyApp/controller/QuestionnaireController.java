@@ -1,4 +1,4 @@
-package com.tejyasols.surveyApp.controller;
+/*package com.tejyasols.surveyApp.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class QuestionnaireController {
 	}
 
 	
-	/* * @PostMapping("/createQuestionnaire") public Questionnaire
+	 * @PostMapping("/createQuestionnaire") public Questionnaire
 	 * createQuestion(@Valid @RequestBody String questionsList) { Timestamp
 	 * timestamp = new Timestamp(System.currentTimeMillis());
 	 * 
@@ -97,7 +97,8 @@ public class QuestionnaireController {
 	 * List<Questionnaire> lt = questionService.saveall(reqList);
 	 * lt.stream().forEachOrdered(l->logger.debug(l.getId().toString())); return
 	 * null; } catch (Exception e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); return null; } }*/
+	 * e.printStackTrace(); return null; } }
 	 
 
 }
+*/

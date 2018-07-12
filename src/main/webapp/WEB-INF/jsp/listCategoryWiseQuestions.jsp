@@ -16,19 +16,21 @@
 		<th>Category Name</th>
 
 
-		<c:forEach var="listValue" items="${Categories}">
-		
+		<c:forEach var="listValue" items="${questionList}">
+
 
 			</tr>
-			<form:form modelAttribute="Category" action="updateCategoryById">
-				<input type="hidden" name="categoryId"
-					value="<c:out value="${listValue.categoryId}"/>" />
-				<td><input type="text" name="categoryName"
-					value="<c:out value="${listValue.categoryName}"/>" /></td>
+			<form:form modelAttribute="Question" action="../updateQuestionById">
+				<input type="hidden" name="questionId"
+					value="<c:out value="${listValue.questionId}"/>" />
+				<td><input type="text" name="question"
+					value="<c:out value="${listValue.question}"/>" /></td>
 				<td><button type="submit">Update</button></td>
 			</form:form>
-			<td><a href="<c:url value='deleteCategoryById/${listValue.categoryId}'/>"><button>Delete</button></a></td>
-			<td><a href="<c:url value='addOrEditQuestionsByCategoryId/${listValue.categoryId}'/>"><button>Add/Edit Questions</button></a></td>
+			<td><a href="<c:url value='../deleteQuestionById/${listValue.questionId}'/>"><button>Delete</button></a></td>
+			<%-- <td><a
+				href="<c:url value='addOrEditQuestionsByCategoryId/${listValue.categoryId}'/>"><button>Add/Edit
+						Questions</button></a></td> --%>
 
 
 
@@ -37,7 +39,8 @@
 	</table>
 	<center>
 		<a href="createCategoryForm">
-		<button>Add Survey</button></a>
+			<button>Add Survey</button>
+		</a>
 	</center>
 
 

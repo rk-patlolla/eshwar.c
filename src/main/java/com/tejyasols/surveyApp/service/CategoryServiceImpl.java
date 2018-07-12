@@ -28,6 +28,16 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryRepository.findAll();
 	}
 
+	/*@Override
+	public Category updateCategoryById(Category category) throws Exception {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Category categoryUpdate = categoryRepository.findById(category.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category", "id", category.getCategoryId()));
+		categoryUpdate.setCategoryName(category.getCategoryName());
+		categoryUpdate.setUpdateDateTime(timestamp);
+	    return categoryRepository.save(categoryUpdate);
+	    
+	}*/
+	
 	@Override
 	public Category updateCategoryById(Category category) throws Exception {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());

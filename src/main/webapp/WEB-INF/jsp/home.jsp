@@ -11,7 +11,7 @@
 <body>
 <center>
 <a href="<c:url value='getAllCategoriesInJsp'/>">Admin</a>
-<a href="admin"> Take Survey</a>
+<a href="<c:url value='listQuestionsForSurvey/952'/>"> Take Survey</a>
 </center>
        
 </body>

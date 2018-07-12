@@ -47,6 +47,7 @@ public class Category implements Serializable {
 	private Timestamp updateDateTime;
 	
 	@Transient
+	@OneToMany(mappedBy="category")
 	private List<Questionnaire> questions;
 	
 
