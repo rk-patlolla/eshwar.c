@@ -20,8 +20,13 @@
 				<form:input type="hidden" path="questions[${quesStatus.index}].questionId"/>
 				<td><form:input type="text" path="questions[${quesStatus.index}].question" readonly="readonly"/></td>
 				<td>
-					<form:radiobutton path="questions[${quesStatus.index}].answer" value="questions[${quesStatus.index}].answers[0].answer"/> Yes
-					<form:radiobutton path="questions[${quesStatus.index}].answer" value="questions[${quesStatus.index}].answers[1].answer"/> No
+					<%-- <form:radiobutton path="questions[${quesStatus.index}].answer" value='questions[${quesStatus.index}].answers[0].answer'/> Yes
+					<form:radiobutton path="questions[${quesStatus.index}].answer" value='questions[${quesStatus.index}].answers[1].answer'/> No --%>
+					
+					<%-- <form:input path="questions[${quesStatus.index}].answers[0].answer" type = "text"/>
+					<form:input path="questions[${quesStatus.index}].answers[1].answer" type = "text"/> --%>
+					<form:radiobutton path="questions[${quesStatus.index}].answer" value="Yes"/> Yes
+					<form:radiobutton path="questions[${quesStatus.index}].answer" value="No"/> No
 				</td>
 				
 				<%-- <c:forEach var="ans" items="questions[${quesStatus.index}].answers" varStatus="ansStatus">
