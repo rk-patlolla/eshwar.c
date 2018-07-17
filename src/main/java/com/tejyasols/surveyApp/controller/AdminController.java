@@ -9,8 +9,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tejyasols.surveyApp.domain.Answer;
 import com.tejyasols.surveyApp.domain.Category;
 import com.tejyasols.surveyApp.domain.Questionnaire;
-import com.tejyasols.surveyApp.domain.QuestionsWrapper;
-import com.tejyasols.surveyApp.domain.SurveyResults;
-import com.tejyasols.surveyApp.domain.UserInfo;
 import com.tejyasols.surveyApp.service.AnswerService;
 import com.tejyasols.surveyApp.service.CategoryService;
 import com.tejyasols.surveyApp.service.QuestionService;
-import com.tejyasols.surveyApp.service.SurveyResultsService;
 
 @RestController
 @RequestMapping("/admin")
@@ -226,7 +221,7 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 	    return categoryUpdate;
 	}*/
 	
-	@RequestMapping("/deleteCategoryById/{id}")
+	@DeleteMapping("/deleteCategoryById/{id}")
 	public ModelAndView deleteCategoryById(@Valid @PathVariable Long id) {
 		logger.debug("recieced deleteCategoryById api call");
 		try {

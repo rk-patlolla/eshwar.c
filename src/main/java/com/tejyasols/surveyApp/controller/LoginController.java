@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -24,6 +25,18 @@ public class LoginController {
 		return new ModelAndView("home");
 	}
 
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(ModelAndView model, String error, String logout) {
+        if (error != null)
+            model.addObject("errorMsg", "Your username and password are invalid.");
+
+        if (logout != null)
+        	model.addObject("msg", "You have been logged out successfully.");
+        model.setViewName("login");
+
+        return model;
+    }
+	
 	@RequestMapping("/default")
     public ModelAndView defaultAfterLogin(HttpServletRequest request) {
 		logger.debug("entered into default");
@@ -35,10 +48,12 @@ public class LoginController {
 		 
         if (role.equalsIgnoreCase("ADMIN")) {
         	RedirectView redirectView = new RedirectView("/admin/getAllCategoriesInJsp");
+        	logger.debug("redirecting to "+redirectView.getUrl());
             redirectView.setExposePathVariables(false);
             return new ModelAndView(redirectView);
         }
         RedirectView redirectView = new RedirectView("/user/getAllCategories");
+        logger.debug("redirecting outside to "+redirectView.getUrl());
         redirectView.setExposePathVariables(false);
         return new ModelAndView(redirectView);
     }

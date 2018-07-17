@@ -13,12 +13,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.tejyasols.surveyApp.filters.RequestResponseFilter;
 import com.tejyasols.surveyApp.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SurveyAppSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	  @Autowired
+	    private UserDetailsServiceImpl userDetailsService;
+	 
+	    @Autowired
+	    private DataSource dataSource;
+	    
+	    @Autowired
+	    RequestResponseFilter requestResponseFilter;
 
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,7 +45,8 @@ public class SurveyAppSecurityConfig extends WebSecurityConfigurerAdapter {
 		  
 	        // The pages does not require login
 	        	http.authorizeRequests().antMatchers("admin/**").hasRole("ADMIN").anyRequest().authenticated()
-	            .antMatchers("user/**").hasRole("USER").anyRequest().authenticated();
+	            .antMatchers("user/**").hasRole("USER").anyRequest().authenticated()
+	            .and().addFilterAt(requestResponseFilter,BasicAuthenticationFilter.class);
 	            /*.anyRequest().authenticated()*/;
 	            
 	        	http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
@@ -57,12 +69,6 @@ public class SurveyAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	    }
 
-	  @Autowired
-	    private UserDetailsServiceImpl userDetailsService;
-	 
-	    @Autowired
-	    private DataSource dataSource;
-	 
 	    @Bean
 	    public BCryptPasswordEncoder passwordEncoder() {
 	        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

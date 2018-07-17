@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tejyasols.surveyApp.domain.Category;
@@ -27,7 +28,7 @@ import com.tejyasols.surveyApp.service.QuestionService;
 import com.tejyasols.surveyApp.service.SurveyResultsService;
 import com.tejyasols.surveyApp.service.UserInfoService;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 	
@@ -80,11 +81,11 @@ public class UserController {
 		return mv;
 	}
 
-	@GetMapping("/selectCategoryForSurvey/{categoryId}")
-	public ModelAndView listQuestionsForSurvey(@PathVariable Long categoryId) throws Exception
+	@RequestMapping("/selectCategoryForSurvey/{categoryId}")
+	public ModelAndView listQuestionsForSurvey(@ModelAttribute("Category") Category category,@PathVariable Long categoryId) throws Exception
 	{
-		QuestionsWrapper qlw = new QuestionsWrapper();
-		qlw.setQuestions(questionService.findQuestionsForSurvey(categoryId));;
+		logger.debug("entered selectCategoryForSurvey");
+		QuestionsWrapper qlw = questionService.findQuestionsForSurvey(categoryId);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("takeSurvey");
 		mav.addObject("questionsListWrapper", qlw);
@@ -98,17 +99,17 @@ public class UserController {
 		logger.debug("called saveSurvey");
 		List<SurveyResults> survey = new ArrayList<SurveyResults>();
 		qw.getQuestions().forEach(q->{
-			SurveyResults sr = new SurveyResults();
+			/*SurveyResults sr = new SurveyResults();
 			UserInfo ud = new UserInfo();
 			ud.setId(new Long(1));
 			sr.setQuestionnaire(q);
 			sr.setAnswer(q.getAnswer());
 			sr.setUserDetails(ud);
-			survey.add(sr);
+			survey.add(sr);*/
 			logger.debug("each question answered "+q.getQuestion());
 			logger.debug("it answer is" +q.getAnswer());
 		});
-		surveyResultsService.saveSurvey(survey);
+		surveyResultsService.saveSurvey(qw);
 		return null;
 	}
 	

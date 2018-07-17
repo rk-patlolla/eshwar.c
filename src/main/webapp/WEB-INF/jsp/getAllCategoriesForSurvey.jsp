@@ -19,7 +19,7 @@
 		<c:forEach var="listValue" items="${Categories}">
 		
 
-			<form:form modelAttribute="Category" action="/user/selectCategoryForSurvey/${listValue.categoryId}">
+			<form:form modelAttribute="Category" action="/user/selectCategoryForSurvey/${listValue.categoryId}" method="GET">
 				<input type="hidden" name="categoryId"
 					value="<c:out value="${listValue.categoryId}"/>" />
 				<td><input type="text" name="categoryName"
