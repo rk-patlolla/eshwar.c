@@ -15,8 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.tejyasols.surveyApp.controller.AdminController;
 import com.tejyasols.surveyApp.domain.UserInfo;
+
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -31,7 +31,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserInfo appUser = this.userInfoService.findByEmail(email);
+		logger.debug("email in request is "+email);
+//        UserInfo appUser = this.userInfoService.findByEmail(email);
+		UserInfo appUser = this.userInfoService.findByEmail(email);
  
         if (appUser == null) {
             System.out.println("Email not found! " + email);
@@ -46,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 GrantedAuthority authority = new SimpleGrantedAuthority(appUser.getUserRole());
                 grantList.add(authority);
  
-        UserDetails userDetails = (UserDetails) new User(appUser.getUserName(), //
+        UserDetails userDetails = (UserDetails) new User(appUser.getEmail(), //
                 appUser.getPassword(), grantList);
  
         return userDetails;

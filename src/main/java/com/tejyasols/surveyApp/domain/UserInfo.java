@@ -8,12 +8,12 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "UserDetails")
@@ -40,6 +40,7 @@ public class UserInfo implements Serializable {
 	private String email;
 	
 	@Column
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
 	public Long getId() {

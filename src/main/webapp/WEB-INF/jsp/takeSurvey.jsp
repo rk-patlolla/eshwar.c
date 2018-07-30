@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,7 +13,7 @@
 <h3 align="center">Take Survey</h3>
 <body>
 	<table border="1" align="center">
-
+<p>hi <security:authentication property="principal.username" /></p>
 		
 		<form:form method="post" action="../saveSurvey" modelAttribute="questionsListWrapper">
 			<c:forEach items="${questionsListWrapper.questions}" var="ques" varStatus="quesStatus">
@@ -38,16 +39,17 @@
 				</c:forEach> --%>
 				</tr>
 			</c:forEach>
-			<button type="submit">Update</button>
+		<center>	<button type="submit">Update</button></center>
 		</form:form>
 
 	</table>
 
 	<center>
-		<a href="createCategoryForm">
-			<button>Add Survey</button>
+		<a href="../logout">
+			<button>Logout</button>
 		</a>
 	</center>
+	
 
 
 </body>

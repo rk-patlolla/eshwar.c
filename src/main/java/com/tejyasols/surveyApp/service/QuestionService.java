@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.tejyasols.surveyApp.domain.Answer;
+import com.tejyasols.surveyApp.domain.Category;
 import com.tejyasols.surveyApp.domain.Questionnaire;
+import com.tejyasols.surveyApp.domain.QuestionsWrapper;
 
 public interface QuestionService {
 	
@@ -22,5 +24,7 @@ public interface QuestionService {
 	public List<Questionnaire> findByCategoryId(Long categoryId) throws Exception;
 	
 	public List<Questionnaire> findQuestionsForSurvey(Long categoryId) throws Exception;
+
+	Boolean deleteQuestionsBasedOnCategoryId(Category category) throws Exception;
 
 }

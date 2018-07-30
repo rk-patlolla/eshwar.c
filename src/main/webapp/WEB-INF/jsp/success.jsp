@@ -8,5 +8,11 @@
 </head>
 <body>
 Insertion Successful
+<center>
+		<a href="../logout">
+			<button>Logout</button>
+		</a>
+	</center>
+	
 </body>
 </html>

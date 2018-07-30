@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.tejyasols.surveyApp.domain.Questionnaire;
 import com.tejyasols.surveyApp.domain.QuestionsWrapper;
 import com.tejyasols.surveyApp.domain.SurveyResults;
-import com.tejyasols.surveyApp.domain.UserDetails;
+import com.tejyasols.surveyApp.domain.UserInfo;
 import com.tejyasols.surveyApp.repository.SurveyResultsRepository;
 
 @Service
@@ -30,14 +30,14 @@ public class SurveyResultsServiceImpl implements SurveyResultsService {
 		{
 			SurveyResults sr = new SurveyResults();
 			Questionnaire quest = new Questionnaire();
-			UserDetails user = new UserDetails();
+			UserInfo user = new UserInfo();
 			quest.setQuestionId(q.getQuestionId());
 			user.setId(new Long(1));
 			sr.setQuestionnaire(quest);
 			sr.setUserDetails(user);
 			sr.setAnswer(q.getAnswer());
 			logger.debug("quest="+sr.getQuestionnaire()+":::user="+sr.getUserDetails()+":::Answer");
-			surveyResults.add(sr);
+//			surveyResults.add(sr);
 		}
 		/*qw.getQuestions().forEach(q->{
 			SurveyResults sr = new SurveyResults();
@@ -54,7 +54,7 @@ public class SurveyResultsServiceImpl implements SurveyResultsService {
 		logger.debug("surveyResultsList size="+surveyResults.size());
 		List<SurveyResults> savedSurveyResults = surveyResultsRepository.saveAll(surveyResults);
 		logger.debug("No od sr saved"+savedSurveyResults.size());
-		return null;
+		return savedSurveyResults;
 	}
 
 }

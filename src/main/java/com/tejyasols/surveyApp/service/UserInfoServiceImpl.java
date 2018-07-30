@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.tejyasols.surveyApp.domain.UserInfo;
 import com.tejyasols.surveyApp.repository.UserInfoRepository;
 
+
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
 	
@@ -22,6 +23,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public UserInfo findByEmail(String email) {
 		// TODO Auto-generated method stub
 		return userInfoRepository.findByEmail(email);
+	}
+
+	@Override
+	public UserInfo findByUserName(String userName) {
+		// TODO Auto-generated method stub
+		return userInfoRepository.findByUserName(userName);
 	}
 
 }

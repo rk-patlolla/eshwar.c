@@ -6,23 +6,27 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tejyasols.surveyApp.domain.Category;
-import com.tejyasols.surveyApp.domain.Questionnaire;
 import com.tejyasols.surveyApp.domain.QuestionsWrapper;
 import com.tejyasols.surveyApp.domain.SurveyResults;
 import com.tejyasols.surveyApp.domain.UserInfo;
-import com.tejyasols.surveyApp.service.AnswerService;
 import com.tejyasols.surveyApp.service.CategoryService;
 import com.tejyasols.surveyApp.service.QuestionService;
 import com.tejyasols.surveyApp.service.SurveyResultsService;
@@ -65,6 +69,8 @@ public class UserController {
 		return new ModelAndView("success");
 	}
 	
+	
+	
 	@GetMapping("/getAllCategories")
 	public ModelAndView getAllCategories(@ModelAttribute("Category") Category category,BindingResult result) {
 		List<Category> categoriesList = new ArrayList<Category>();
@@ -85,7 +91,8 @@ public class UserController {
 	public ModelAndView listQuestionsForSurvey(@ModelAttribute("Category") Category category,@PathVariable Long categoryId) throws Exception
 	{
 		logger.debug("entered selectCategoryForSurvey");
-		QuestionsWrapper qlw = questionService.findQuestionsForSurvey(categoryId);
+		QuestionsWrapper qlw = new QuestionsWrapper();
+		qlw.setQuestions(questionService.findQuestionsForSurvey(categoryId));
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("takeSurvey");
 		mav.addObject("questionsListWrapper", qlw);
@@ -110,10 +117,7 @@ public class UserController {
 			logger.debug("it answer is" +q.getAnswer());
 		});
 		surveyResultsService.saveSurvey(qw);
-		return null;
+		return new ModelAndView("success");
 	}
 	
 }
-
-	
-

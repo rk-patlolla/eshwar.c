@@ -14,16 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping("/loginController")
 public class LoginController {
 
 	public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
-	@GetMapping("/home")
-	public ModelAndView index() {
-		
-		return new ModelAndView("home");
-	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(ModelAndView model, String error, String logout) {
@@ -36,26 +29,25 @@ public class LoginController {
 
         return model;
     }
-	
+
 	@RequestMapping("/default")
-    public ModelAndView defaultAfterLogin(HttpServletRequest request) {
+	public ModelAndView defaultAfterLogin(HttpServletRequest request) {
 		logger.debug("entered into default");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String role = auth.getAuthorities().toString();
-        role = role.substring(1, role.length()-1);
-		logger.debug("found user as "+role);
-		
-		 
-        if (role.equalsIgnoreCase("ADMIN")) {
-        	RedirectView redirectView = new RedirectView("/admin/getAllCategoriesInJsp");
-        	logger.debug("redirecting to "+redirectView.getUrl());
-            redirectView.setExposePathVariables(false);
-            return new ModelAndView(redirectView);
-        }
-        RedirectView redirectView = new RedirectView("/user/getAllCategories");
-        logger.debug("redirecting outside to "+redirectView.getUrl());
-        redirectView.setExposePathVariables(false);
-        return new ModelAndView(redirectView);
-    }
+		String role = auth.getAuthorities().toString();
+		role = role.substring(1, role.length() - 1);
+		logger.debug("found user as " + role);
+
+		if (role.equalsIgnoreCase("ADMIN")) {
+			RedirectView redirectView = new RedirectView("/admin/getAllCategoriesInJsp");
+			logger.debug("redirecting to " + redirectView.getUrl());
+			redirectView.setExposePathVariables(false);
+			return new ModelAndView(redirectView);
+		}
+		RedirectView redirectView = new RedirectView("/user/getAllCategories");
+		logger.debug("redirecting outside to " + redirectView.getUrl());
+		redirectView.setExposePathVariables(false);
+		return new ModelAndView(redirectView);
+	}
 
 }

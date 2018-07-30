@@ -31,7 +31,7 @@ public class SurveyResults implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "userId")
-	private UserDetails userDetails;
+	private UserInfo userDetails;
 
 	@ManyToOne
 	@JoinColumn(name = "questionId")
@@ -50,11 +50,11 @@ public class SurveyResults implements Serializable {
 		this.surveyResultsId = surveyResultsId;
 	}
 
-	public UserDetails getUserDetails() {
+	public UserInfo getUserDetails() {
 		return userDetails;
 	}
 
-	public void setUserDetails(UserDetails userDetails) {
+	public void setUserDetails(UserInfo userDetails) {
 		this.userDetails = userDetails;
 	}
 

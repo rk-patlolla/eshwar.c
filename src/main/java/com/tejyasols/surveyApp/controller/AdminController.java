@@ -2,6 +2,7 @@ package com.tejyasols.surveyApp.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -9,7 +10,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +25,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tejyasols.surveyApp.domain.Answer;
 import com.tejyasols.surveyApp.domain.Category;
 import com.tejyasols.surveyApp.domain.Questionnaire;
+import com.tejyasols.surveyApp.domain.QuestionsWrapper;
 import com.tejyasols.surveyApp.service.AnswerService;
 import com.tejyasols.surveyApp.service.CategoryService;
 import com.tejyasols.surveyApp.service.QuestionService;
+import com.tejyasols.surveyApp.service.SurveyResultsService;
 
 @RestController
 @RequestMapping("/admin")
@@ -41,8 +47,10 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 	@Autowired
 	AnswerService answerService;
 	
-	
-	
+	@Autowired
+	SurveyResultsService surveyResultsService;
+
+
 	@GetMapping("/home")
 	public ModelAndView index() {
 		List<Category> catList = new ArrayList<Category>();
@@ -55,12 +63,10 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 		return new ModelAndView("home");
 	}
 	
-	@GetMapping("/adminView")
+	@GetMapping("/admin")
 	public ModelAndView admin() {
 		return new ModelAndView("admin");
 	}
-	
-	
 
 	@RequestMapping("/createCategoryForm")
 	public ModelAndView createCategoryForm() {
@@ -80,7 +86,21 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 		return categoriesList;
 	}*/
 	
-	
+	@GetMapping("/getAllCategories")
+	public ModelAndView getAllCategories(@ModelAttribute("Category") Category category,BindingResult result) {
+		List<Category> categoriesList = new ArrayList<Category>();
+		try {
+			categoriesList = categoryService.findAll();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ModelAndView mv = new ModelAndView("createQuestionnaireForm");
+		mv.addObject("categoriesList", categoriesList);
+		return mv;
+	}
 	
 	@GetMapping("/getCategory/{id}")
 	public ModelAndView getCategoryById(@ModelAttribute("Category") Category category ,@PathVariable Long id) {
@@ -96,7 +116,6 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 	
 	@GetMapping("/getAllCategoriesInJsp")
 	public ModelAndView getAllCategoriesInJsp(@ModelAttribute("Category") Category category) {
-		logger.debug("entered getAllCategoriesInJsp");
 		List<Category> categoriesList = new ArrayList<Category>();
 		try {
 			categoriesList = categoryService.findAll();
@@ -168,7 +187,10 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 	}*/
 	
 	@PostMapping("/updateCategoryById")
-	public ModelAndView updateCategoryById(@Valid @ModelAttribute("Category")Category category) {
+	public ModelAndView updateCategoryById(@Valid @ModelAttribute("Category")Category category,@AuthenticationPrincipal final UserDetails userDetails) {
+		String un = userDetails.getUsername();
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		authorities.stream().forEach(a->logger.debug(""+a));
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		logger.debug("recieced updateCategoryById api call");
 		Category categoryUpdate = new Category();
@@ -221,7 +243,7 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 	    return categoryUpdate;
 	}*/
 	
-	@DeleteMapping("/deleteCategoryById/{id}")
+	@RequestMapping("/deleteCategoryById/{id}")
 	public ModelAndView deleteCategoryById(@Valid @PathVariable Long id) {
 		logger.debug("recieced deleteCategoryById api call");
 		try {
@@ -290,7 +312,7 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 	}
 	
 	@PostMapping("/createQuestions")
-	public Questionnaire createQuestions(@ModelAttribute("Category") Category category) throws Exception {
+	public ModelAndView createQuestions(@ModelAttribute("Category") Category category) throws Exception {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		for(Questionnaire ques : category.getQuestions())
 		{
@@ -314,9 +336,43 @@ public static final Logger logger = LoggerFactory.getLogger(AdminController.clas
 			List<Answer> savedAnswerList = answerService.createAnswer(answerList);
 		}
 		logger.info("Form submitted successfully.");
-		return null;
+		return  new ModelAndView("success");
+	}
+	
+	@GetMapping("/listQuestionsForSurvey/{categoryId}")
+	public ModelAndView listQuestionsForSurvey(@PathVariable Long categoryId) throws Exception
+	{
+		QuestionsWrapper qlw = new QuestionsWrapper();
+//		qlw.setQuestions(questionService.findQuestionsForSurvey(categoryId));;
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("takeSurvey");
+		mav.addObject("questionsListWrapper", qlw);
+		return mav;
 	}
 	
 	
-
+	@PostMapping("/saveSurvey")
+	public ModelAndView saveSurvey(@ModelAttribute("questionsListWrapper") QuestionsWrapper qw) throws Exception
+	{
+		logger.debug("called saveSurvey");
+		qw.getQuestions().forEach(q->{
+			logger.debug("qid is "+q.getQuestionId());
+			logger.debug("each question answered "+q.getQuestion());
+			logger.debug("it answer is" +q.getAnswer());
+			try {
+				surveyResultsService.saveSurvey(qw);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		return  new ModelAndView("success");
+	}
+/*	@PostMapping("/createQuestionnaire")
+	public @Valid Questionnaire createNote(@Valid @RequestBody Questionnaire question) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		question.setCreateDateTime(timestamp);
+		question.setUpdateDateTime(timestamp);
+		return questionnaireRepository.save(question);
+	}*/
 }

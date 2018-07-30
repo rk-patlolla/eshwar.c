@@ -37,7 +37,13 @@
 	</table>
 	<center>
 		<a href="createCategoryForm">
-		<button>Add Survey</button></a>
+			<button>Add Survey</button>
+		</a>
+	</center>
+	<center>
+		<a href="../logout">
+			<button>Logout</button>
+		</a>
 	</center>
 
 

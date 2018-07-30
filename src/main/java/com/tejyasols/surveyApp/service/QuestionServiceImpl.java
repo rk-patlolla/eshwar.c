@@ -7,15 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.tejyasols.surveyApp.controller.CategoryController;
 import com.tejyasols.surveyApp.domain.Answer;
+import com.tejyasols.surveyApp.domain.Category;
 import com.tejyasols.surveyApp.domain.Questionnaire;
 import com.tejyasols.surveyApp.repository.QuestionnaireRepository;
 
@@ -27,6 +29,9 @@ public class QuestionServiceImpl implements QuestionService {
 	
 	@Autowired
 	QuestionnaireRepository questionnaireRepository;
+	
+	@Autowired
+	EntityManager entityManager;
 
 	@Override
 	public Questionnaire createQuestion(Questionnaire question) throws Exception {
@@ -146,6 +151,23 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionsList;
 	}
 
+	
+	@Transactional
+	@Override
+	public Boolean deleteQuestionsBasedOnCategoryId(Category category) throws Exception {
+		String queryStr = "Delete FROM Questionnaire q where q.category = :category";
+        Query query = entityManager.createQuery(queryStr);
+        int noofdeleted = query.setParameter("category", category).executeUpdate();
+        if(noofdeleted>0)
+        {
+        	return true;
+        }
+        else
+        {
+        	return false;
+        }
+		
+	}
 	 private static void printResult(Object result) {
 		    if (result == null) {
 		      System.out.print("NULL");

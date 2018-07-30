@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import com.tejyasols.surveyApp.domain.UserInfo;
 
+
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long>
 {
 	@Query("SELECT u FROM UserInfo u where email = :email")
 	UserInfo findByEmail(@Param("email") String email);
+	
+	UserInfo findByUserName(String userName);
 
 }
